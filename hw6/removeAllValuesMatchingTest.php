@@ -1,39 +1,36 @@
 <?php
-
 include "code.php";
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
 
-final class letterTest extends TestCase {
-
-  function test_removeAllValuesMatching1() {
-    $arr = array(
-     'a' => "one",   'b' => "two",
-     'c' => "three", 'd' => "two",
-     'e' => "four",  'f' => "five",
-     'g' => "three", 'h' => "two",
-    );
-    $result = removeAllValuesMatching($arr, "two");
-    $this->assertEquals(5, count($result));
-    foreach($result as $key => $value) {
-      $this->assertTrue($value != "two", "two should not be in the values");
-      $this->assertEquals($arr[$key], $result[$key], "Looks like a key mismatch");
+final class CodeTest extends TestCase
+{
+    public function testRemovesEveryMatch(): void
+    {
+        $input = ['a' => 'one', 'b' => 'two', 'c' => 'three', 'd' => 'two'];
+        $this->assertSame(['a' => 'one', 'c' => 'three'], removeAllValuesMatching($input, 'two'));
     }
-  }
 
-  function test_removeAllValuesMatching2() {
-    $arr = array(
-     'a' => "one",   'b' => "two",
-     'c' => "three", 'd' => "two",
-     'e' => "four",  'f' => "five",
-     'g' => "three", 'h' => "two",
-    );
-    $result = removeAllValuesMatching($arr, "three");
-    $this->assertEquals(6, count($result));
-    foreach($result as $key => $value) {
-      $this->assertTrue($value != "three", "three should not be in the values");
-      $this->assertEquals($arr[$key], $result[$key], "Looks like a key mismatch");
+    public function testNoMatchesLeavesArrayUnchanged(): void
+    {
+        $input = ['a' => 'one', 'b' => 'two'];
+        $this->assertSame($input, removeAllValuesMatching($input, 'missing'));
     }
-  }
+
+    public function testAllMatchesReturnsEmptyArray(): void
+    {
+        $this->assertSame([], removeAllValuesMatching(['a' => 'x', 'b' => 'x'], 'x'));
+    }
+
+    public function testPreservesAssociativeKeys(): void
+    {
+        $input = [10 => 'keep', 20 => 'remove', 40 => 'also keep'];
+        $this->assertSame([10 => 'keep', 40 => 'also keep'], removeAllValuesMatching($input, 'remove'));
+    }
+
+    public function testUsesStrictValueMatching(): void
+    {
+        $input = ['integer' => 2, 'string' => '2', 'other' => 3];
+        $this->assertSame(['string' => '2', 'other' => 3], removeAllValuesMatching($input, 2));
+    }
 }

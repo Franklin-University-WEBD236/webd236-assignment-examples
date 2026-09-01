@@ -1,32 +1,44 @@
 <?php
-
 include "code.php";
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
 
-$words = preg_split("/[ \t\n\r]/", file_get_contents("words.txt"));
+final class CodeTest extends TestCase
+{
+    public function testReturnsWordsWithMatchingSoundex(): void
+    {
+        $dictionary = ['Robert', 'Rupert', 'Rubin', 'Ashcraft'];
+        $this->assertSame(['Robert', 'Rupert'], findSpellings('Ropert', $dictionary));
+    }
 
-final class letterTest extends TestCase {
+    public function testExcludesWordsWithDifferentSoundex(): void
+    {
+        $dictionary = ['Euler', 'Ellery', 'Gauss', 'Ghosh'];
+        $result = findSpellings('Ealer', $dictionary);
+        $this->assertContains('Euler', $result);
+        $this->assertContains('Ellery', $result);
+        $this->assertNotContains('Gauss', $result);
+        $this->assertNotContains('Ghosh', $result);
+    }
 
-  function test_findSpellings1() {
-    global $words;
-    $matches = findSpellings("mispeled", $words);
-    $this->assertEquals(27, count($matches));
-  }
+    public function testReturnsEmptyArrayWhenNothingMatches(): void
+    {
+        $this->assertSame([], findSpellings('Robert', ['Smith', 'Jones', 'Taylor']));
+    }
 
-  function test_findSpellings2() {
-    global $words;
-    $matches = findSpellings("globall", $words);
-    $this->assertEquals(16, count($matches));
-  }
+    public function testPreservesDictionaryOrderAndReindexesResults(): void
+    {
+        $dictionary = [4 => 'Rupert', 8 => 'Rubin', 12 => 'Robert'];
+        $this->assertSame(['Rupert', 'Robert'], findSpellings('Ropert', $dictionary));
+    }
 
-  function test_findSpellings3() {
-    global $words;
-    $matches = findSpellings(":-)", $words);
-    $this->assertEquals(0, count($matches));
-  }
-
+    public function testWorksWithTheCourseDictionaryFixture(): void
+    {
+        $words = preg_split('/[ \t\n\r]+/', trim(file_get_contents('words.txt')));
+        $matches = findSpellings('mispeled', $words);
+        $this->assertNotEmpty($matches);
+        foreach ($matches as $match) {
+            $this->assertSame(soundex('mispeled'), soundex($match));
+        }
+    }
 }
-
-?>

@@ -1,26 +1,42 @@
 <?php
-
 include "code.php";
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
 
-final class matchIPAddressTest extends TestCase {
-
-  function test_matchIPAddress1() {
-    $data = array('192.168.1.1', '10.0.0.1', '127.0.0.1', '172.16.0.254');
-    foreach ($data as $ipa) {
-      $this->assertTrue(matchIPAddress($ipa), "$ipa should be a valid IP address");
+final class CodeTest extends TestCase
+{
+    public function testAcceptsCanonicalAddressesAndBoundaries(): void
+    {
+        foreach (['0.0.0.0', '10.0.0.1', '192.168.1.1', '255.255.255.255'] as $address) {
+            $this->assertTrue(matchIPAddress($address), "$address should be valid");
+        }
     }
-  }
 
-  function test_matchIPAddress2() {
-    $data = array('192.168.01.1', '10.001.0.1', '127.00.0.1', '345.0.0.1', '192.678.0.1', '192.168.456.1');
-    foreach ($data as $ipa) {
-      $this->assertFalse(matchIPAddress($ipa), "$ipa should not be a valid IP address");
+    public function testRejectsOutOfRangeOctets(): void
+    {
+        foreach (['256.0.0.1', '10.999.0.1', '192.168.0.300', '-1.2.3.4'] as $address) {
+            $this->assertFalse(matchIPAddress($address), "$address has an invalid octet");
+        }
     }
-  }
 
+    public function testRejectsLeadingZeroOctets(): void
+    {
+        foreach (['192.168.01.01', '01.2.3.4', '10.00.0.1', '001.2.3.4'] as $address) {
+            $this->assertFalse(matchIPAddress($address), "$address is not canonical IPv4 notation");
+        }
+    }
+
+    public function testRejectsWrongNumberOfOctets(): void
+    {
+        foreach (['192.168.1', '192.168.1.1.5', '192..1.1', ''] as $address) {
+            $this->assertFalse(matchIPAddress($address), "$address must contain exactly four octets");
+        }
+    }
+
+    public function testRejectsWhitespaceAndExtraCharacters(): void
+    {
+        foreach ([' 192.168.1.1', '192.168.1.1 ', 'x192.168.1.1', '192.168.1.1/24', '192,168,1,1'] as $address) {
+            $this->assertFalse(matchIPAddress($address), "$address must match in full");
+        }
+    }
 }
-
-?>

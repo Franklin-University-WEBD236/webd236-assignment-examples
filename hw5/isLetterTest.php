@@ -1,25 +1,35 @@
 <?php
-
 include "code.php";
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
 
-final class letterTest extends TestCase {
+final class CodeTest extends TestCase
+{
+    public function testUppercaseLetters(): void
+    {
+        foreach (['A', 'M', 'Z'] as $character) {
+            $this->assertTrue(isLetter($character), "$character should be an ASCII letter");
+        }
+    }
 
-  public function testIsLetterWithNumber() {
-    $this->assertFalse(isLetter("1"), "isLetter('1') should be false");
-  }
-  public function testIsLetterLowerCaseEdge() {
-    $this->assertTrue(isLetter("z"), "isLetter('z') should be true");
-  }
-  public function testIsLetterCapitalEdge() {
-    $this->assertTrue(isLetter("A"), "isLetter('A') should be true");
-  }
-  public function testIsLetterTest() {
-    $this->assertTrue(isLetter("g"), "isLetter('g') should be true");
-  }
+    public function testLowercaseLetters(): void
+    {
+        foreach (['a', 'm', 'z'] as $character) {
+            $this->assertTrue(isLetter($character), "$character should be an ASCII letter");
+        }
+    }
 
+    public function testBoundaryNonLetters(): void
+    {
+        foreach (['@', '[', '\\', '`', '{'] as $character) {
+            $this->assertFalse(isLetter($character), "$character is just outside an ASCII letter range");
+        }
+    }
+
+    public function testOtherInvalidCharacters(): void
+    {
+        foreach (['0', '-', ' ', '', 'ab'] as $character) {
+            $this->assertFalse(isLetter($character), "'$character' is not exactly one ASCII letter");
+        }
+    }
 }
-
-?>

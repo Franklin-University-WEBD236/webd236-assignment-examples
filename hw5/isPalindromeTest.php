@@ -2,27 +2,30 @@
 include "code.php";
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Assert;
 
-final class CodeTest extends TestCase {
-
-  public function testIsPalindrome1() {
-    $strings = ['racecar', 'mom', 'level', ''];
-    foreach ($strings as $str) {
-      $this->assertTrue(isPalindrome($str), "'$str' is a palindrome");
+final class CodeTest extends TestCase
+{
+    public function testSimplePalindromes(): void
+    {
+        foreach (['racecar', 'mom', 'level'] as $value) {
+            $this->assertTrue(isPalindrome($value), "'$value' should be a palindrome");
+        }
     }
-  }
-  public function testIsPalindrome2() {
-    $strings = ['able was i ere i saw elba', 'Able was I, ere I saw Elba', "Madam, I'm Adam"];
-    foreach ($strings as $str) {
-      $this->assertTrue(isPalindrome($str), "'$str' is a palindrome");
-    }
-  }
-  public function testIsPalindrome3() {
-    $this->assertFalse(isPalindrome("ello there"), "'ello there' is not a palindrome");
-  }
-  public function testIsPalindrome4() {
-    $this->assertFalse(isPalindrome("another test"), "'another test' is not a palindrome");
-  }
 
+    public function testIgnoresNonLetters(): void
+    {
+        $this->assertTrue(isPalindrome('A man, a plan, a canal, Panama!'));
+        $this->assertTrue(isPalindrome("Madam, I'm Adam."));
+    }
+
+    public function testCaseInsensitive(): void
+    {
+        $this->assertTrue(isPalindrome('Able was I, ere I saw Elba'));
+    }
+
+    public function testRejectsNonPalindromes(): void
+    {
+        $this->assertFalse(isPalindrome('hello there'));
+        $this->assertFalse(isPalindrome('palindrome'));
+    }
 }
