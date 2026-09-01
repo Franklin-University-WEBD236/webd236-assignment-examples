@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 
 final class filterWordTest extends TestCase {
-  
+
   function test_wordFilter1() {
     $this->assertEquals("*****", wordFilter("fudge"));
   }
@@ -25,7 +25,7 @@ final class filterWordTest extends TestCase {
   function test_wordFilter6() {
     $this->assertEquals("", wordFilter(""));
   }
-  
+
 }
 
 ?>

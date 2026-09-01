@@ -24,5 +24,5 @@ final class CodeTest extends TestCase {
   public function testIsPalindrome4() {
     $this->assertFalse(isPalindrome("another test"), "'another test' is not a palindrome");
   }
-  
+
 }

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 
 final class matchSSNTest extends TestCase {
-  
+
   function test_MatchSSN1() {
     $data = array('123-45-6789', '437-88-9182', '123456789', '437889182');
     foreach ($data as $ssn) {
@@ -20,7 +20,7 @@ final class matchSSNTest extends TestCase {
       $this->assertFalse(matchSSN($ssn), "$ssn should not be a valid ssn");
     }
   }
-  
+
 }
 
 ?>

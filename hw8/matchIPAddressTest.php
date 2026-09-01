@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Assert;
 
 final class matchIPAddressTest extends TestCase {
-  
+
   function test_matchIPAddress1() {
     $data = array('192.168.1.1', '10.0.0.1', '127.0.0.1', '172.16.0.254');
     foreach ($data as $ipa) {
@@ -20,7 +20,7 @@ final class matchIPAddressTest extends TestCase {
       $this->assertFalse(matchIPAddress($ipa), "$ipa should not be a valid IP address");
     }
   }
-  
+
 }
 
 ?>
