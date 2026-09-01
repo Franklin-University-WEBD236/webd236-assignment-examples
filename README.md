@@ -1,81 +1,39 @@
-# PHP Unit Tests - WEBD 236
+# WEBD 236 Assignment Examples and Tests
 
-Unit test suites for homework assignments in the **WEBD 236: Web Application Development** course at Franklin University.
+Student-facing assignment contracts, examples, and automated tests for Franklin University's **WEBD 236: Web Application Development** course.
 
-## Overview
+This repository is intentionally public. Students may read the tests. The tests are part of each assignment's specification: they show the required function names, routes, output structure, boundary cases, and error handling.
 
-This repository contains PHPUnit test cases that validate the functionality of student-submitted homework assignments for WEBD 236. Each homework folder includes comprehensive unit tests designed to verify correct implementation of course concepts.
+## Repository map
 
-## Course Information
+| Assignment | Topics | Public materials |
+| --- | --- | --- |
+| HW1 | Forms and FizzBuzz | Contract and page-level PHPUnit tests |
+| HW2 | SQL and PHP database output | Three SQL contracts/alternate datasets and faculty-page tests |
+| HW3 | MVC routing | Contract, request harness, and route tests |
+| HW4 | Form processing and validation | Contract, request harness, and validation tests |
+| HW5 | String functions | PHPUnit tests |
+| HW6 | Arrays and file processing | PHPUnit tests and word fixture |
+| HW7 | Objects and functional programming | PHPUnit tests |
+| HW8 | Regular expressions | PHPUnit tests |
+| HW9 | DDL and REST/JSON | Database contract queries and REST integration tests |
 
-- **Course Code:** WEBD 236
-- **Course Title:** Web Application Development
-- **Institution:** Franklin University
-- **Language:** PHP
+Each assignment directory contains either a `contract.md` or `README.md`. Read that document before reading the tests; it explains what is tested and which implementation choices remain yours.
 
-## Repository Structure
+## Using the tests
 
-The repository is organized by homework assignment:
+These files are designed to run beside an assignment submission. Ed supplies PHPUnit as `phpunit.phar`; local instructions are in [docs/local-testing.md](docs/local-testing.md).
 
-### HW5: String Functions
-Tests implementation of string manipulation functions:
-- `isPalindrome()` - Validates palindrome detection
-- `myReverse()` - Tests string reversal functionality
-- `isLetter()` - Checks letter classification
-- `longestRun()` - Finds the longest consecutive character sequence
-- `countdownFront()` - Tests countdown string generation
+The tests intentionally favor observable behavior over a particular coding style. A solution may use different internal helpers as long as it satisfies the documented public contract.
 
-### HW6: Array Operations
-Tests array manipulation and file processing:
-- `removeDuplicates()` - Removes duplicate values from arrays
-- `removeAllValuesMatching()` - Filters array by matching pattern
-- `findSpellings()` - Validates word matching against dictionary (uses `words.txt`)
+## Instructor infrastructure
 
-### HW7: Object-Oriented Programming
-Tests class design and functional programming concepts:
-- `Car` class - Tests object properties and methods
-- `modeMaker()` - Calculates the mode (most frequent value) of a dataset
-- `reduce()` - Tests functional reduce/fold operations
+Ed testcase JSON, point allocations, deployment runners, reference schemas, and course/slide mappings are maintained separately in the private `webd236-autograding` repository. Public test code is mirrored there when needed to create a self-contained Ed bundle.
 
-### HW8: Regular Expressions
-Tests pattern matching and validation:
-- `matchIPAddress()` - Validates IP address format
-- `matchSSN()` - Validates Social Security Number format
-- `wordFilter()` - Filters words based on regex patterns
+## Legacy material
 
-### HW9: JSON and Advanced Processing
-Tests JSON parsing and data processing:
-- `fizzBuzzService()` - Implements FizzBuzz logic with service class
-- JSON data processing with multiple result sets
+Older Mimir-era runners and the previous HW9 fixture-based test are retained under [`legacy/`](legacy/) for historical reference. They are not the current grading configuration.
 
-### Archive
-Contains previous or archived test files from earlier course iterations.
+## Contributions
 
-## Running the Tests
-
-These tests are automatically run in the EdStem environment where the homework assignments are hosted. 
-
-To run the tests locally, ensure you have PHPUnit installed and execute:
-
-```bash
-phpunit [path-to-assignment-tests]
-```
-
-For example, to run tests for hw5:
-
-```bash
-phpunit hw5
-```
-
-## Requirements
-
-- PHP 7.0 or higher
-- PHPUnit (installed via Composer or standalone)
-
-## Contributing
-
-These tests are maintained by Tyler Whitney and Franklin University instructors. Students should not modify these test files. If you find an issue with a test, please contact your instructor.
-
-## License
-
-These materials are provided for educational purposes by Tyler Whitney and Franklin University.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Changes should update the assignment contract and its tests together.
